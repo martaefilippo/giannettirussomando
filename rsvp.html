@@ -30,17 +30,21 @@
 
   // ---- testi che dipendono dal profilo ----
   function saluto() {
-    var frasi = [];
-    if (p.dove === 'solo aperitivo') frasi.push('Ti aspettiamo sul Faito per la cerimonia e l’aperitivo del nostro matrimonio!');
-    else frasi.push('Ti aspettiamo sul Faito per il nostro matrimonio!');
+    var h = '';
+    if (p.dove === 'solo aperitivo') h += '<p class="intro-q-benvenuto">Ti aspettiamo sul Faito per la cerimonia e l’aperitivo del nostro matrimonio!</p>';
+    else h += '<p class="intro-q-benvenuto">Ti aspettiamo sul Faito per il nostro matrimonio!</p>';
     if (p.stanza) {
-      frasi.push('Abbiamo riservato per te una stanza a <b>' + esc(p.albergo) + '</b>' + (p.compagni ? ', insieme a <b>' + esc(p.compagni) + '</b>' : '') + '.');
+      h += '<p>Abbiamo riservato per te una stanza a <b>' + esc(p.albergo) + '</b>' + (p.compagni ? ', insieme a <b>' + esc(p.compagni) + '</b>' : '') + '.</p>';
       var prezzo = String(p.prezzo || (p.colonne && p.colonne.Prezzo) || '').trim().replace(/€/g, '').trim();
       if (prezzo) {
-        frasi.push('Il costo della stanza è di <b>' + esc(prezzo) + '€</b> a notte a persona che, se deciderai di confermare, potrai pagare entro il <b>20 aprile 2027</b> tramite bonifico al seguente conto: <b>Filippo Russomando &amp; Marta Giannetti</b>, IBAN <b>IT89 T036 6901 6008 1788 6466 950</b>.');
+        h += '<p>Il costo della stanza è di <b>' + esc(prezzo) + '€ a notte a persona</b> che, se deciderai di confermare, potrai pagare entro il <b>20 aprile 2027</b> tramite bonifico al seguente conto:</p>' +
+          '<div class="pagamento">' +
+          '<div><span>Intestatario</span><b>Filippo Russomando &amp; Marta Giannetti</b></div>' +
+          '<div><span>IBAN</span><code id="ibanQ">IT89 T036 6901 6008 1788 6466 950</code><button class="btn vuoto piccolo" type="button" id="copiaIbanQ">Copia IBAN</button></div>' +
+          '</div>';
       }
     }
-    return frasi.join(' ');
+    return '<div class="intro-q">' + h + '</div>';
   }
   function radio(nome, opzioni, valore, obbl) {
     return '<div class="scelte">' + opzioni.map(function (o, i) {
@@ -81,7 +85,7 @@
 
   app.innerHTML = '<p class="etichetta centro">Conferma la tua presenza</p>' +
     '<h2 class="saluto centro">Ciao ' + esc(p.nome) + '!</h2>' +
-    '<p class="lead centro">' + saluto() + '</p>' +
+    saluto() +
     (r.conferma ? '<p class="avviso">Hai già risposto: qui trovi le tue risposte, puoi modificarle e inviare di nuovo.</p>' : '') +
     '<form class="modulo" id="formRsvp" novalidate>' + blocchi.join('') +
     '<div class="pulsanti"><button class="btn" type="submit" id="invia">Invia le risposte</button></div>' +
@@ -96,6 +100,14 @@
     form.querySelectorAll('[data-se="si"]').forEach(function (b) { b.hidden = !viene; });
   }
   form.addEventListener('change', aggiorna); aggiorna();
+
+  var cb = document.getElementById('copiaIbanQ'), ib = document.getElementById('ibanQ');
+  if (cb && ib) cb.addEventListener('click', function () {
+    var t = ib.textContent.replace(/\s+/g, '');
+    var ok = function () { cb.textContent = 'Copiato'; setTimeout(function () { cb.textContent = 'Copia IBAN'; }, 2000); };
+    var fb = function () { var rg = document.createRange(); rg.selectNodeContents(ib); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok).catch(fb); else fb();
+  });
 
   var esito = document.getElementById('esito'), invia = document.getElementById('invia');
   function mostra(msg, tipo) { esito.textContent = msg; esito.className = 'avviso' + (tipo ? ' ' + tipo : ''); esito.hidden = false; esito.scrollIntoView({ block: 'nearest' }); }
