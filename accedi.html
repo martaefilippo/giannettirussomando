@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conferma presenza · Marta e Filippo</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Boku&family=Agbalumo&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+<header class="topbar"><a class="marchio" href="index.html">Marta <span>e</span> Filippo</a><nav class="nav"><a href="index.html">Torna al sito</a></nav></header>
+<main>
+<section class="banda azzurro">
+  <div class="wrap stretto">
+    <p class="etichetta centro">Conferma la tua presenza</p>
+    <h2 class="titolo">Dicci chi sei</h2>
+    <p class="lead centro tenue">Scrivi nome e cognome come li abbiamo sull'invito. Troverai le domande pensate per te.</p>
+
+    <form class="modulo" id="formAccesso" novalidate>
+      <div class="campo">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" type="text" autocomplete="given-name" required autofocus>
+      </div>
+      <div class="campo">
+        <label for="cognome">Cognome</label>
+        <input id="cognome" name="cognome" type="text" autocomplete="family-name" required>
+      </div>
+      <div class="pulsanti"><button class="btn" type="submit" id="invia">Avanti</button></div>
+      <p class="avviso" id="esito" hidden></p>
+      <p class="prova" id="notaProva" hidden>Modalità prova: il backend non è ancora collegato. Prova con <b>Prova Faito</b>, <b>Prova Aperitivo</b>, <b>Prova Altrove</b> o <b>Prova Roma</b>.</p>
+    </form>
+  </div>
+</section>
+</main>
+<footer class="piede"><p class="nomi">Marta <span class="e">e</span> Filippo</p><p>9 luglio 2027 · Monte Faito</p></footer>
+
+<script src="config.js"></script>
+<script src="comune.js"></script>
+<script>
+(function () {
+  var C = window.Comune;
+  var form = document.getElementById('formAccesso');
+  var esito = document.getElementById('esito');
+  var invia = document.getElementById('invia');
+  if (C.MODALITA_PROVA) document.getElementById('notaProva').hidden = false;
+
+  function mostra(msg, tipo) { esito.innerHTML = msg; esito.className = 'avviso' + (tipo ? ' ' + tipo : ''); esito.hidden = false; }
+  var aiuto = C.CONFIG.contattoAiuto && C.CONFIG.contattoAiuto !== '#####' ? ' Se pensi sia un errore scrivici: ' + C.esc(C.CONFIG.contattoAiuto) : '';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nome = document.getElementById('nome').value.trim();
+    var cognome = document.getElementById('cognome').value.trim();
+    if (!nome || !cognome) { mostra('Servono sia il nome sia il cognome.', 'errore'); return; }
+    invia.disabled = true; invia.textContent = 'Un momento…'; esito.hidden = true;
+    C.api('verifica', { nome: nome, cognome: cognome }).then(function (r) {
+      invia.disabled = false; invia.textContent = 'Avanti';
+      switch (r.esito) {
+        case 'ok':
+          C.salvaProfilo(r.profilo);
+          location.href = 'rsvp.html';
+          break;
+        case 'non_trovato':
+          mostra('Spiacenti, <b>' + C.esc(nome + ' ' + cognome) + '</b> non risulta tra gli invitati. Controlla l\'ortografia, prova a invertire nome e cognome, oppure usa il nome di chi ha ricevuto l\'invito.' + aiuto, 'errore');
+          break;
+        case 'ambiguo':
+          mostra('Ci sono più invitati con questo nome. Scrivici e ti aiutiamo noi.' + aiuto, 'errore');
+          break;
+        case 'roma':
+          mostra('Ciao ' + C.esc(r.nome || '') + '! Il tuo invito è per la festa di Roma: il sito dedicato arriva presto.');
+          break;
+        case 'dati_mancanti':
+          mostra('Servono sia il nome sia il cognome.', 'errore');
+          break;
+        default:
+          mostra('Qualcosa non ha funzionato (' + C.esc(r.esito || 'errore') + '). Riprova tra poco.' + aiuto, 'errore');
+      }
+    }).catch(function () {
+      invia.disabled = false; invia.textContent = 'Avanti';
+      mostra('Non riesco a raggiungere il servizio. Controlla la connessione e riprova.' + aiuto, 'errore');
+    });
+  });
+})();
+</script>
+</body>
+</html>

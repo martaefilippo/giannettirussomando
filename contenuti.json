@@ -1,0 +1,160 @@
+{
+  "_istruzioni": "Contenuti della landing page. Le sezioni compaiono nell'ordine di questa lista. ##### = dato ancora da inserire. Ogni sezione può avere 'font_titolo' (Agbalumo, Yuji Boku, Nunito Sans) e 'sfondo' (crema, azzurro, cielo, notte, foto).",
+  "evento": {
+    "sposa": "Marta",
+    "sposo": "Filippo",
+    "data": "2027-07-09",
+    "ora": "16:30",
+    "data_estesa": "Venerdì 9 luglio 2027",
+    "luogo_breve": "Monte Faito",
+    "menu": false
+  },
+  "sezioni": [
+    {
+      "id": "invito",
+      "tipo": "intro",
+      "menu": "",
+      "sfondo": "crema",
+      "font_titolo": "Yuji Boku",
+      "foto": "assets/foto-1.jpg",
+      "foto_alt": "Marta e Filippo guardano il golfo e il Vesuvio dal Monte Faito",
+      "foto_orientamento": "verticale",
+      "frase": "vi invitano al loro matrimonio",
+      "testo": "",
+      "countdown": false
+    },
+    {
+      "id": "location",
+      "tipo": "location",
+      "menu": "Location",
+      "sfondo": "crema",
+      "foto": "assets/panorama-faito.jpg",
+      "foto_alt": "Il golfo di Napoli e il Vesuvio visti dal Monte Faito",
+      "titolo": "",
+      "sottotitolo": "",
+      "pulsante": "Apri in Google Maps",
+      "mappa_url": "https://maps.app.goo.gl/NhmBSVzWh57gzbqv7"
+    },
+    {
+      "id": "programma",
+      "tipo": "programma",
+      "menu": "Programma",
+      "sfondo": "crema",
+      "titolo": "Programma del matrimonio",
+      "voci": [
+        {
+          "ora": "16:30 – 17:00",
+          "titolo": "Benvenuto",
+          "testo": ""
+        },
+        {
+          "ora": "17:00 – 18:00",
+          "titolo": "Cerimonia",
+          "testo": ""
+        },
+        {
+          "ora": "18:00 – 20:30",
+          "titolo": "Aperitivo",
+          "testo": ""
+        },
+        {
+          "ora": "20:30 – 22:30",
+          "titolo": "Cena",
+          "testo": ""
+        },
+        {
+          "ora": "22:30 – 23:00",
+          "titolo": "Torte e brindisi",
+          "testo": ""
+        },
+        {
+          "ora": "23:00 – 01:30",
+          "titolo": "Festa",
+          "testo": ""
+        }
+      ],
+      "consigli_titolo": "Consigli per la cerimonia",
+      "consigli": [
+        "Siamo in montagna: la sera potrebbe fare fresco, portate qualcosa per coprirvi.",
+        "A terra c'è la ghiaia: meglio scarpe comode, o un comodo ricambio."
+      ]
+    },
+    {
+      "id": "rsvp",
+      "tipo": "rsvp",
+      "menu": "Conferma",
+      "sfondo": "cielo",
+      "titolo": "Conferma la tua presenza",
+      "testo": "Inserisci nome e cognome: troverai un piccolo questionario e le informazioni necessarie al tuo soggiorno sul Monte Faito!",
+      "scadenza": "20 aprile 2027",
+      "pulsante": "Vai alla conferma",
+      "link": "accedi.html",
+      "prenotazioni_titolo": "",
+      "prenotazioni_testo": ""
+    },
+    {
+      "id": "weekend",
+      "tipo": "weekend",
+      "menu": "Fine settimana",
+      "sfondo": "notte",
+      "titolo": "Programma del fine settimana",
+      "testo": "",
+      "giorni": [
+        {
+          "giorno": "Venerdì 9 luglio",
+          "voci": [
+            "Il matrimonio"
+          ]
+        },
+        {
+          "giorno": "Sabato 10 luglio",
+          "voci": [
+            "Pranzo al sacco con passeggiata al Pian del Pero",
+            "Cena al ristorante Sant'Angelo"
+          ]
+        },
+        {
+          "giorno": "Domenica 11 luglio",
+          "voci": [
+            "Ripartenze"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regalo",
+      "tipo": "regalo",
+      "menu": "Regalo",
+      "sfondo": "azzurro",
+      "titolo": "Regalo",
+      "testo": "Il regalo più bello sarà avervi con noi sul Faito, un posto per noi significativo e speciale! Se però vorrete aggiungerne un altro lo utilizzeremo per ammirare il foliage del prossimo autunno in Giappone tra taniche di ramen e taglienti katane, un viaggio che sogniamo da tempo. Inoltre, il 10% di ciò che riceveremo andrà a Medici Senza Frontiere.",
+      "intestatario": "Filippo Russomando & Marta Giannetti",
+      "iban": "IT89 T036 6901 6008 1788 6466 950",
+      "link": [
+        {
+          "etichetta": "#####",
+          "url": "#####"
+        },
+        {
+          "etichetta": "#####",
+          "url": "#####"
+        }
+      ]
+    },
+    {
+      "id": "saluto",
+      "tipo": "saluto",
+      "menu": "",
+      "sfondo": "crema",
+      "font_titolo": "Yuji Boku",
+      "foto": "assets/foto-3.jpg",
+      "foto_alt": "Marta e Filippo",
+      "foto_orientamento": "verticale",
+      "titolo": "A presto",
+      "testo": "#####"
+    }
+  ],
+  "piede": {
+    "testo": "9 luglio 2027 · Monte Faito"
+  }
+}

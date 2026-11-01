@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le tue risposte · Marta e Filippo</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Boku&family=Agbalumo&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+<header class="topbar"><a class="marchio" href="index.html">Marta <span>e</span> Filippo</a><nav class="nav"><a href="accedi.html">Cambia persona</a><a href="index.html">Torna al sito</a></nav></header>
+<main>
+<section class="banda azzurro">
+  <div class="wrap stretto" id="app"><p class="tenue centro">Un momento…</p></div>
+</section>
+</main>
+<footer class="piede"><p class="nomi">Marta <span class="e">e</span> Filippo</p><p>9 luglio 2027 · Monte Faito</p></footer>
+
+<script src="config.js"></script>
+<script src="comune.js"></script>
+<script>
+(function () {
+  var C = window.Comune, esc = C.esc;
+  var app = document.getElementById('app');
+  var p = C.leggiProfilo();
+  if (!p) { location.replace('accedi.html'); return; }
+  var r = p.risposte || {};
+  var NOTTI = C.CONFIG.notti || [];
+  var nottiScelte = String(r.notti || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+
+  // ---- testi che dipendono dal profilo ----
+  function saluto() {
+    var frasi = [];
+    if (p.dove === 'solo aperitivo') frasi.push('Ti aspettiamo per la cerimonia e l\'aperitivo sul Faito.');
+    else frasi.push('Ti aspettiamo sul Faito per la cerimonia, l\'aperitivo e la cena.');
+    if (p.stanza) {
+      frasi.push('Abbiamo riservato per te una stanza a <b>' + esc(p.albergo) + '</b>' + (p.compagni ? ', insieme a <b>' + esc(p.compagni) + '</b>' : '') + '.');
+    }
+    return frasi.join(' ');
+  }
+  function radio(nome, opzioni, valore, obbl) {
+    return '<div class="scelte">' + opzioni.map(function (o, i) {
+      return '<label><input type="radio" name="' + nome + '" value="' + esc(o) + '"' + (valore === o ? ' checked' : '') + (obbl && i === 0 ? ' required' : '') + '> ' + esc(o) + '</label>';
+    }).join('') + '</div>';
+  }
+
+  // ---- blocchi del form: compaiono in base al profilo ----
+  var blocchi = [];
+
+  blocchi.push('<div class="blocco"><h3>Ci sei?</h3>' +
+    '<fieldset class="campo"><legend>Parteciperai' + (p.dove === 'solo aperitivo' ? ' alla cerimonia e all\'aperitivo' : '') + '?</legend>' +
+    radio('conferma', ['Sì, ci sarò', 'Purtroppo no'], r.conferma === 'No' ? 'Purtroppo no' : (r.conferma ? 'Sì, ci sarò' : ''), true) + '</fieldset></div>');
+
+  blocchi.push('<div class="blocco" data-se="si"><h3>Come ti raggiungiamo</h3>' +
+    '<div class="campo"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" value="' + esc(r.email || '') + '"><p class="aiuto">Per eventuali comunicazioni prima del matrimonio.</p></div>' +
+    '<div class="campo"><label for="telefono">Telefono</label><input id="telefono" name="telefono" type="tel" required autocomplete="tel" value="' + esc(r.telefono || '') + '"></div></div>');
+
+  if (p.stanza) {
+    blocchi.push('<div class="blocco" data-se="si"><h3>Le notti</h3>' +
+      '<p>La stanza a <b>' + esc(p.albergo) + '</b> è riservata' + (p.compagni ? ' per te e ' + esc(p.compagni) : '') + '. Dicci quali notti ti fermi.</p>' +
+      '<fieldset class="campo"><legend>Notti</legend><div class="scelte">' + NOTTI.map(function (n) {
+        return '<label><input type="checkbox" name="notti" value="' + esc(n) + '"' + (nottiScelte.indexOf(n) !== -1 ? ' checked' : '') + '> ' + esc(n) + '</label>';
+      }).join('') + '</div></fieldset></div>');
+  } else if (p.dove !== 'solo aperitivo') {
+    blocchi.push('<div class="blocco" data-se="si"><h3>Dove dormire</h3><p class="tenue">Per il pernotto ti organizzi in autonomia: nella sezione "Info prenotazioni" del sito trovi i nostri suggerimenti. <span class="seg">#####</span></p></div>');
+  }
+
+  if (p.navetta) {
+    blocchi.push('<div class="blocco" data-se="si"><h3>La navetta</h3><p>Possiamo passare a prenderti con la navetta. <span class="seg">#####</span></p>' +
+      '<fieldset class="campo"><legend>Vuoi usare la navetta?</legend>' + radio('navetta', ['Sì', 'No'], r.navetta || '', false) + '</fieldset></div>');
+  }
+
+  blocchi.push('<div class="blocco" data-se="si"><h3>A tavola</h3>' +
+    '<div class="campo"><label for="allergie">Allergie, intolleranze o menù particolari</label><input id="allergie" name="allergie" type="text" value="' + esc(r.allergie || '') + '" placeholder="Es. vegetariano, senza glutine"><p class="aiuto">Lascia vuoto se nessuna.</p></div></div>');
+
+  blocchi.push('<div class="blocco"><h3>Un messaggio per noi</h3>' +
+    '<div class="campo"><label for="messaggio">Facoltativo</label><textarea id="messaggio" name="messaggio" rows="3">' + esc(r.messaggio || '') + '</textarea></div></div>');
+
+  app.innerHTML = '<p class="etichetta centro">Conferma la tua presenza</p>' +
+    '<h2 class="saluto centro">Ciao ' + esc(p.nome) + '!</h2>' +
+    '<p class="lead centro">' + saluto() + '</p>' +
+    (r.conferma ? '<p class="avviso">Hai già risposto: qui trovi le tue risposte, puoi modificarle e inviare di nuovo.</p>' : '') +
+    '<form class="modulo" id="formRsvp" novalidate>' + blocchi.join('') +
+    '<div class="pulsanti"><button class="btn" type="submit" id="invia">Invia le risposte</button></div>' +
+    '<p class="avviso" id="esito" hidden></p></form>' +
+    (C.MODALITA_PROVA ? '<p class="prova">Modalità prova: le risposte restano in questo browser, nulla viene scritto nel foglio.</p>' : '');
+
+  // blocchi che hanno senso solo se partecipa
+  var form = document.getElementById('formRsvp');
+  function aggiorna() {
+    var c = form.querySelector('input[name="conferma"]:checked');
+    var viene = !c || c.value.indexOf('Sì') === 0;
+    form.querySelectorAll('[data-se="si"]').forEach(function (b) { b.hidden = !viene; });
+  }
+  form.addEventListener('change', aggiorna); aggiorna();
+
+  var esito = document.getElementById('esito'), invia = document.getElementById('invia');
+  function mostra(msg, tipo) { esito.textContent = msg; esito.className = 'avviso' + (tipo ? ' ' + tipo : ''); esito.hidden = false; esito.scrollIntoView({ block: 'nearest' }); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var c = form.querySelector('input[name="conferma"]:checked');
+    if (!c) { mostra('Dicci se parteciperai.', 'errore'); return; }
+    var viene = c.value.indexOf('Sì') === 0;
+    var ris = { conferma: viene ? 'Sì' : 'No', messaggio: form.messaggio.value.trim() };
+    if (viene) {
+      if (!form.email.value.trim() || !form.email.checkValidity()) { mostra('Serve un indirizzo email valido.', 'errore'); return; }
+      if (!form.telefono.value.trim()) { mostra('Serve un numero di telefono.', 'errore'); return; }
+      ris.email = form.email.value.trim(); ris.telefono = form.telefono.value.trim();
+      ris.allergie = form.allergie.value.trim();
+      ris.notti = Array.prototype.map.call(form.querySelectorAll('input[name="notti"]:checked'), function (i) { return i.value; });
+      if (p.stanza && ris.notti.length === 0) { mostra('Indica almeno una notte, o dicci che non ti fermi scrivendolo nel messaggio.', 'errore'); return; }
+      var nav = form.querySelector('input[name="navetta"]:checked'); ris.navetta = nav ? nav.value : '';
+    }
+    invia.disabled = true; invia.textContent = 'Invio…';
+    C.api('salva', { token: p.token, nome: p.nome, cognome: p.cognome, risposte: ris }).then(function (resp) {
+      invia.disabled = false; invia.textContent = 'Invia le risposte';
+      if (resp.esito === 'ok') {
+        p.risposte = Object.assign({}, r, ris, { notti: (ris.notti || []).join(', ') }); C.salvaProfilo(p);
+        mostra(viene ? 'Grazie ' + p.nome + '! Abbiamo ricevuto le tue risposte. Puoi tornare qui per modificarle.' : 'Grazie ' + p.nome + ', ci dispiace che tu non possa esserci. Abbiamo registrato la risposta.', 'ok');
+      } else {
+        mostra('Non siamo riusciti a salvare (' + (resp.esito || 'errore') + '). Riprova tra poco.', 'errore');
+      }
+    }).catch(function () { invia.disabled = false; invia.textContent = 'Invia le risposte'; mostra('Non riesco a raggiungere il servizio. Controlla la connessione e riprova.', 'errore'); });
+  });
+})();
+</script>
+</body>
+</html>

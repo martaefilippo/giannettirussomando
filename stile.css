@@ -1,0 +1,204 @@
+/* Stile condiviso dalle tre pagine (landing, accesso, form).
+   Layout: pagina unica a bande piene; i colori vengono dal save the date (guida di stile approvata).
+   Tema unico chiaro, per scelta. */
+:root {
+  --cielo: #3878a8;
+  --mare: #2d5f8a;
+  --notte: #1c3a56;
+  --azzurro: #cfdfe9;
+  --nuvola: #f4f0e6;
+  --giallo: #f6bc46;
+  --oro: #daa14a;
+  --rosso: #880b00;
+  --verde: #445618;
+  --verde-chiaro: #6d8a3a;
+  --testo: #1e2d3a;
+  --testo-tenue: #556573;
+  --carta: #ffffff;
+
+  --font-nomi: "Yuji Boku", "Segoe Script", cursive;
+  --font-info: "Agbalumo", "Trebuchet MS", sans-serif;
+  --font-testo: "Nunito Sans", "Segoe UI", sans-serif;
+
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  --largo: 1040px;
+  --stretto: 700px;
+  --raggio: 14px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--nuvola); color: var(--testo); font-family: var(--font-testo); font-size: 1.05rem; line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { text-wrap: balance; }
+a { color: var(--mare); }
+:focus-visible { outline: 3px solid var(--giallo); outline-offset: 2px; }
+
+.seg { background: #fff3c4; border-bottom: 2px dotted var(--oro); padding: 0 .15em; font-family: var(--font-info); font-size: .9em; }
+
+/* ---- contenitori e bande ---- */
+.banda { padding-block: clamp(3rem, 7vw, 5rem); background: var(--nuvola); position: relative; }
+.banda.azzurro { background: linear-gradient(180deg, var(--azzurro), var(--nuvola)); }
+.banda.cielo { background: linear-gradient(180deg, var(--cielo) 0%, var(--mare) 100%); color: var(--carta); }
+.banda.notte { background: var(--notte); color: var(--nuvola); }
+.banda.foto { color: var(--carta); background-size: cover; background-position: center; }
+.banda.foto::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,58,86,.35), rgba(28,58,86,.7)); }
+.banda.foto > * { position: relative; }
+.banda.cielo h2, .banda.notte h2, .banda.foto h2 { color: var(--giallo); }
+.banda.cielo a, .banda.notte a, .banda.foto a { color: var(--carta); }
+.banda.foto p, .banda.foto h2 { text-shadow: 0 1px 10px rgba(0,0,0,.35); }
+.wrap { max-width: var(--largo); margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); display: grid; gap: 1.4rem; }
+.wrap.stretto { max-width: var(--stretto); }
+.centro { text-align: center; }
+.lead { max-width: 62ch; margin-inline: auto; }
+.tenue { color: var(--testo-tenue); }
+.banda.cielo .tenue, .banda.notte .tenue, .banda.foto .tenue { color: var(--azzurro); }
+
+h2.titolo { font-family: var(--font-info); font-weight: 400; font-size: clamp(1.9rem, 5vw, 2.6rem); color: var(--mare); line-height: 1.1; text-align: center; }
+h3 { font-family: var(--font-info); font-weight: 400; font-size: 1.15rem; }
+.etichetta { font-family: var(--font-info); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rosso); }
+.banda.cielo .etichetta, .banda.notte .etichetta, .banda.foto .etichetta { color: var(--giallo); }
+.nomi { font-family: var(--font-nomi); font-size: clamp(3rem, 10vw, 5.6rem); line-height: 1; color: var(--oro); }
+.nomi .e { color: var(--rosso); font-size: .55em; }
+.banda.cielo .nomi { color: var(--giallo); }
+.banda.cielo .nomi .e { color: var(--nuvola); }
+.info-riga { font-family: var(--font-info); font-size: 1.05rem; letter-spacing: .08em; text-transform: uppercase; }
+
+/* ---- barra di navigazione ---- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: .55rem; padding-left: var(--gl); padding-right: var(--gr); background: rgba(244,240,230,.92); backdrop-filter: blur(8px); border-bottom: 1px solid #e3ddd0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--nuvola); }
+.marchio { font-family: var(--font-nomi); font-size: 1.6rem; color: var(--mare); text-decoration: none; line-height: 1; }
+.marchio span { color: var(--oro); font-size: .8em; }
+.nav { display: flex; gap: 1.1rem; flex-wrap: wrap; }
+.nav a { font-family: var(--font-info); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--notte); padding: .3rem 0; border-bottom: 2px solid transparent; }
+.nav a:hover { border-bottom-color: var(--giallo); }
+.menu-toggle { display: none; font-family: var(--font-info); font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; background: none; border: 1px solid var(--mare); color: var(--mare); border-radius: 999px; padding: .4rem .9rem; cursor: pointer; }
+@media (max-width: 680px) {
+  .menu-toggle { display: inline-block; }
+  .nav { display: none; width: 100%; flex-direction: column; gap: .2rem; padding-top: .4rem; }
+  .nav.aperto { display: flex; }
+}
+
+/* ---- pulsanti ---- */
+.btn { display: inline-block; font-family: var(--font-info); font-size: .95rem; letter-spacing: .06em; color: var(--carta); background: var(--rosso); border: 2px solid var(--rosso); border-radius: 999px; padding: .8rem 1.6rem; text-decoration: none; cursor: pointer; line-height: 1.2; }
+.btn:hover { filter: brightness(.92); }
+.btn.giallo { background: var(--giallo); border-color: var(--giallo); color: var(--notte); }
+.btn.vuoto { background: transparent; color: var(--mare); border-color: var(--mare); }
+.btn.vuoto:hover { background: var(--mare); color: var(--carta); filter: none; }
+.banda.cielo .btn.vuoto, .banda.foto .btn.vuoto, .banda.notte .btn.vuoto { color: var(--carta); border-color: var(--carta); }
+.btn[disabled] { opacity: .6; cursor: wait; }
+.pulsanti { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; }
+
+/* ---- intro: foto a tutta altezza a sinistra, invito grande a destra ---- */
+.sez-intro { padding: 0; }
+.sez-intro .intro-griglia { display: grid; grid-template-columns: minmax(0, 46%) minmax(0, 1fr); min-height: 100vh; min-height: 100svh; }
+.sez-intro .intro-griglia .foto { position: relative; margin: 0; width: calc(100vh * 0.75); width: calc(100svh * 0.75); max-width: 100%; height: auto; min-height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; justify-self: end; }
+.sez-intro .intro-griglia .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 45%; }
+.intro-testo { display: grid; gap: 1.4rem; align-content: center; justify-items: start; text-align: left; padding-block: 3rem; padding-left: clamp(2rem, 6vw, 5rem); padding-right: var(--gr); }
+.intro-testo .nomi { font-size: clamp(3.4rem, 8.5vw, 8rem); }
+.invito-frase { font-family: var(--font-info); font-size: clamp(1.5rem, 2.6vw, 2.3rem); color: var(--rosso); line-height: 1.2; }
+.intro-testo .info-riga { color: var(--mare); font-size: clamp(1.05rem, 1.6vw, 1.4rem); line-height: 1.5; }
+.intro-luogo { font-family: var(--font-info); font-size: clamp(1.7rem, 3vw, 2.8rem); color: var(--mare); line-height: 1.1; margin-top: -.6rem; }
+@media (max-width: 760px) {
+  .sez-intro .intro-griglia { grid-template-columns: 1fr; min-height: 0; }
+  .sez-intro .intro-griglia .foto { aspect-ratio: auto; width: 100%; height: 100vh; height: 100svh; }
+  .sez-intro .intro-griglia .foto img { object-position: center 60%; }
+  .intro-testo { justify-items: stretch; text-align: center; padding: 1.4rem var(--gr) 2.4rem var(--gl); gap: .7rem; }
+  .intro-testo > * { max-width: 100%; min-width: 0; overflow-wrap: anywhere; }
+  .intro-testo .nomi { font-size: clamp(3rem, 12vw, 4.6rem); max-width: 100%; }
+  .invito-frase { font-size: 1.5rem; }
+  .intro-luogo { font-size: 1.9rem; margin-top: -.3rem; }
+}
+.foto { border-radius: var(--raggio); overflow: hidden; box-shadow: 0 16px 40px rgba(28,58,86,.18); aspect-ratio: 3 / 2; max-width: 100%; background: linear-gradient(135deg, var(--azzurro), var(--cielo)); display: grid; place-items: center; color: var(--carta); font-family: var(--font-info); letter-spacing: .1em; text-transform: uppercase; }
+.foto img { width: 100%; height: 100%; object-fit: cover; }
+.foto.verticale { aspect-ratio: 3 / 4; max-width: 420px; margin-inline: auto; }
+.countdown { display: flex; justify-content: center; gap: clamp(.8rem, 4vw, 2rem); font-variant-numeric: tabular-nums; margin-top: .5rem; }
+.countdown div { display: grid; justify-items: center; min-width: 3.2rem; }
+.countdown b { font-family: var(--font-nomi); font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; color: var(--cielo); }
+.banda.cielo .countdown b { color: var(--giallo); }
+.countdown small { font-family: var(--font-info); font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--testo-tenue); }
+.banda.cielo .countdown small { color: var(--azzurro); }
+
+/* ---- schede ---- */
+.schede { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1.2rem; }
+.scheda { background: var(--carta); color: var(--testo); border-radius: var(--raggio); padding: 1.4rem; border-top: 5px solid var(--giallo); display: grid; gap: .5rem; align-content: start; min-width: 0; }
+.scheda .etichetta { color: var(--rosso); }
+.scheda .ora { font-family: var(--font-nomi); font-size: 1.9rem; line-height: 1; color: var(--cielo); }
+.scheda .btn { justify-self: start; margin-top: .3rem; }
+.scheda ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; }
+
+
+/* ---- location: foto intera a tutta larghezza, scritta bianca sopra ---- */
+.sez-location { padding: 0; }
+.loc-foto { position: relative; width: 100%; }
+.loc-foto img { width: 100%; height: auto; display: block; }
+.loc-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,58,86,.15), rgba(28,58,86,.45)); }
+.loc-testo { position: absolute; inset: 0; z-index: 1; display: grid; align-content: center; justify-items: center; gap: .4rem; text-align: center; color: var(--carta); padding-left: var(--gl); padding-right: var(--gr); text-shadow: 0 2px 14px rgba(0,0,0,.45); }
+.loc-testo h2 { font-family: var(--font-info); font-weight: 400; font-size: clamp(2rem, 6vw, 5rem); line-height: 1.05; color: var(--carta); }
+.loc-testo p { font-family: var(--font-info); font-size: clamp(1rem, 2.2vw, 1.8rem); letter-spacing: .08em; text-transform: uppercase; }
+.loc-btn-pc { margin-top: 1.2rem; }
+.loc-btn-tel { display: none; }
+@media (max-width: 760px) {
+  .loc-testo { gap: .1rem; }
+  .loc-testo h2 { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+  .loc-testo p { font-size: .8rem; }
+  .loc-btn-pc { display: none; }
+  .loc-btn-tel { display: flex; justify-content: center; padding: 1.4rem var(--gr) 1.8rem var(--gl); }
+}
+
+/* ---- programma ---- */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; max-width: 520px; margin-inline: auto; }
+.timeline li { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px dashed rgba(45,95,138,.35); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline time { font-family: var(--font-info); font-size: 1.1rem; color: var(--cielo); line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: .04em; }
+@media (max-width: 760px) {
+  .timeline li { grid-template-columns: 1fr; gap: .15rem; }
+  .timeline time { font-size: 1rem; }
+}
+.timeline b { font-family: var(--font-info); font-weight: 400; font-size: 1rem; letter-spacing: .06em; text-transform: uppercase; color: var(--notte); display: block; }
+.timeline p { color: var(--testo-tenue); }
+.consigli { background: var(--carta); border-radius: var(--raggio); padding: 1.4rem; display: grid; gap: .5rem; }
+.consigli ul { margin: 0; padding-left: 1.2rem; display: grid; gap: .3rem; }
+
+/* ---- weekend ---- */
+.giorni { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1.2rem; }
+.giorno { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); border-radius: var(--raggio); padding: 1.3rem; display: grid; gap: .4rem; align-content: start; }
+.giorno h3 { color: var(--giallo); }
+.giorno ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; }
+
+/* ---- regalo ---- */
+.iban { background: var(--carta); color: var(--testo); border-radius: var(--raggio); padding: 1.4rem; display: grid; gap: .5rem; justify-items: center; max-width: 560px; margin-inline: auto; text-align: center; }
+.iban b { font-family: var(--font-info); font-weight: 400; letter-spacing: .08em; font-size: .85rem; text-transform: uppercase; color: var(--notte); margin-right: .4rem; }
+.iban code { font-size: 1.05rem; letter-spacing: .05em; word-break: break-all; }
+
+/* ---- piede ---- */
+.piede { background: var(--notte); color: var(--nuvola); text-align: center; padding-block: 2.5rem; padding-left: var(--gl); padding-right: var(--gr); display: grid; gap: .4rem; font-family: var(--font-info); letter-spacing: .1em; text-transform: uppercase; font-size: .8rem; }
+.piede .nomi { font-size: 2.4rem; color: var(--giallo); text-transform: none; letter-spacing: 0; }
+.piede .nomi .e { color: var(--nuvola); }
+
+/* ---- moduli (accesso e rsvp) ---- */
+.modulo { background: var(--carta); border-radius: var(--raggio); padding: clamp(1.2rem, 4vw, 2rem); display: grid; gap: 1.2rem; box-shadow: 0 10px 30px rgba(28,58,86,.08); color: var(--testo); }
+.campo { display: grid; gap: .4rem; margin: 0; padding: 0; border: 0; min-width: 0; }
+.campo label, .campo legend { font-family: var(--font-info); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--notte); }
+.campo input[type="text"], .campo input[type="email"], .campo input[type="tel"], .campo textarea { font: inherit; padding: .7rem .9rem; border: 1px solid #c9d6e2; border-radius: 10px; background: var(--nuvola); width: 100%; color: var(--testo); }
+.campo .aiuto { font-size: .9rem; color: var(--testo-tenue); }
+.scelte { display: flex; gap: 1.2rem 1.6rem; flex-wrap: wrap; }
+.scelte label { font-family: var(--font-testo); font-size: 1rem; letter-spacing: 0; text-transform: none; color: var(--testo); display: flex; align-items: center; gap: .45rem; }
+.scelte input { width: 1.1rem; height: 1.1rem; accent-color: var(--rosso); }
+.blocco { display: grid; gap: .9rem; padding-top: 1.2rem; border-top: 1px dashed rgba(45,95,138,.3); }
+.blocco:first-child { border-top: 0; padding-top: 0; }
+.blocco h3 { color: var(--mare); font-size: 1.3rem; }
+.avviso { border-radius: 10px; padding: .9rem 1.1rem; background: var(--azzurro); color: var(--notte); }
+.avviso.errore { background: #fbe3e0; color: var(--rosso); }
+.avviso.ok { background: #e6efd9; color: var(--verde); }
+.saluto { font-family: var(--font-nomi); font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; color: var(--oro); }
+.prova { font-size: .85rem; color: var(--testo-tenue); border: 1px dashed var(--oro); border-radius: 10px; padding: .6rem .9rem; }
+
+/* ---- badge "Powered by Netlify": resta visibile, ma sul telefono va in alto a destra
+   sopra il cielo della foto, dove non copre testi né pulsanti ---- */
+@media (max-width: 760px) {
+  #nl-badge-frame { top: 10px !important; bottom: auto !important; right: 10px !important; transform: scale(.85) !important; transform-origin: top right !important; }
+}
