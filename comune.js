@@ -18,7 +18,7 @@
 
   // Tre invitati finti per provare il form prima che il backend sia collegato
   var PROFILI_PROVA = {
-    'prova|faito': { nome: 'Prova', cognome: 'Faito', dove: 'tutteddue', cena: true, albergo: "Sant'Angelo", stanza: true, navetta: true, compagni: 'Marco Rossi, Sofia Rossi', risposte: {}, token: 'prova' },
+    'prova|faito': { nome: 'Prova', cognome: 'Faito', dove: 'tutteddue', cena: true, albergo: "Hotel Sant'Angelo", stanza: true, navetta: true, compagni: 'Marco Rossi, Sofia Rossi', prezzo: '50', risposte: {}, token: 'prova' },
     'prova|aperitivo': { nome: 'Prova', cognome: 'Aperitivo', dove: 'solo aperitivo', cena: false, albergo: 'Altrove', stanza: false, navetta: false, compagni: '', risposte: {}, token: 'prova' },
     'prova|altrove': { nome: 'Prova', cognome: 'Altrove', dove: 'faito', cena: true, albergo: 'Altrove', stanza: false, navetta: false, compagni: '', risposte: { email: 'prova@example.com', conferma: 'Sì' }, token: 'prova' },
     'prova|roma': { esitoForzato: 'roma', nome: 'Prova' }

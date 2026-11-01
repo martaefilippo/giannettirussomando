@@ -31,10 +31,14 @@
   // ---- testi che dipendono dal profilo ----
   function saluto() {
     var frasi = [];
-    if (p.dove === 'solo aperitivo') frasi.push('Ti aspettiamo per la cerimonia e l\'aperitivo sul Faito.');
-    else frasi.push('Ti aspettiamo sul Faito per la cerimonia, l\'aperitivo e la cena.');
+    if (p.dove === 'solo aperitivo') frasi.push('Ti aspettiamo sul Faito per la cerimonia e l’aperitivo del nostro matrimonio!');
+    else frasi.push('Ti aspettiamo sul Faito per il nostro matrimonio!');
     if (p.stanza) {
       frasi.push('Abbiamo riservato per te una stanza a <b>' + esc(p.albergo) + '</b>' + (p.compagni ? ', insieme a <b>' + esc(p.compagni) + '</b>' : '') + '.');
+      var prezzo = String(p.prezzo || (p.colonne && p.colonne.Prezzo) || '').trim().replace(/€/g, '').trim();
+      if (prezzo) {
+        frasi.push('Il costo della stanza è di <b>' + esc(prezzo) + '€</b> a notte a persona che, se deciderai di confermare, potrai pagare entro il <b>20 aprile 2027</b> tramite bonifico al seguente conto: <b>Filippo Russomando &amp; Marta Giannetti</b>, IBAN <b>IT89 T036 6901 6008 1788 6466 950</b>.');
+      }
     }
     return frasi.join(' ');
   }
