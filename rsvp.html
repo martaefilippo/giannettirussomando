@@ -26,8 +26,7 @@
   var p = C.leggiProfilo();
   if (!p) { location.replace('accedi.html'); return; }
   var r = p.risposte || {};
-  var NOTTI = C.CONFIG.notti || [];
-  var nottiScelte = String(r.notti || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+  var nottiSalvate = String(r.notti || '').trim();
 
   // ---- testi che dipendono dal profilo ----
   function saluto() {
@@ -56,18 +55,16 @@
     '<div class="campo"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" value="' + esc(r.email || '') + '"><p class="aiuto">Per eventuali comunicazioni prima del matrimonio.</p></div>' +
     '<div class="campo"><label for="telefono">Telefono</label><input id="telefono" name="telefono" type="tel" required autocomplete="tel" value="' + esc(r.telefono || '') + '"></div></div>');
 
-  if (p.stanza) {
+  if (p.dove !== 'solo aperitivo') {
+    var opzNotti = ['Nessuna', '1 notte', '2 notti'];
+    var scelta = nottiSalvate === '0' ? 'Nessuna' : nottiSalvate === '1' ? '1 notte' : nottiSalvate === '2' ? '2 notti' : '';
     blocchi.push('<div class="blocco" data-se="si"><h3>Le notti</h3>' +
-      '<p>La stanza a <b>' + esc(p.albergo) + '</b> è riservata' + (p.compagni ? ' per te e ' + esc(p.compagni) : '') + '. Dicci quali notti ti fermi.</p>' +
-      '<fieldset class="campo"><legend>Notti</legend><div class="scelte">' + NOTTI.map(function (n) {
-        return '<label><input type="checkbox" name="notti" value="' + esc(n) + '"' + (nottiScelte.indexOf(n) !== -1 ? ' checked' : '') + '> ' + esc(n) + '</label>';
-      }).join('') + '</div></fieldset></div>');
-  } else if (p.dove !== 'solo aperitivo') {
-    blocchi.push('<div class="blocco" data-se="si"><h3>Dove dormire</h3><p class="tenue">Per il pernotto ti organizzi in autonomia: nella sezione "Info prenotazioni" del sito trovi i nostri suggerimenti. <span class="seg">#####</span></p></div>');
+      (p.stanza ? '<p>La stanza a <b>' + esc(p.albergo) + '</b> è riservata' + (p.compagni ? ' per te e ' + esc(p.compagni) : '') + '.</p>' : '') +
+      '<fieldset class="campo"><legend>Quante notti ti fermi sul Faito?</legend>' + radio('notti', opzNotti, scelta, false) + '</fieldset></div>');
   }
 
   if (p.navetta) {
-    blocchi.push('<div class="blocco" data-se="si"><h3>La navetta</h3><p>Possiamo passare a prenderti con la navetta. <span class="seg">#####</span></p>' +
+    blocchi.push('<div class="blocco" data-se="si"><h3>La navetta</h3><p>La navetta farà la tratta <b>Stazione di Napoli Centrale – Monte Faito</b> venerdì in tarda mattinata, e il ritorno <b>Monte Faito – Napoli Centrale</b> domenica in tarda mattinata.</p>' +
       '<fieldset class="campo"><legend>Vuoi usare la navetta?</legend>' + radio('navetta', ['Sì', 'No'], r.navetta || '', false) + '</fieldset></div>');
   }
 
@@ -109,16 +106,19 @@
       if (!form.telefono.value.trim()) { mostra('Serve un numero di telefono.', 'errore'); return; }
       ris.email = form.email.value.trim(); ris.telefono = form.telefono.value.trim();
       ris.allergie = form.allergie.value.trim();
-      ris.notti = Array.prototype.map.call(form.querySelectorAll('input[name="notti"]:checked'), function (i) { return i.value; });
-      if (p.stanza && ris.notti.length === 0) { mostra('Indica almeno una notte, o dicci che non ti fermi scrivendolo nel messaggio.', 'errore'); return; }
+      var nt = form.querySelector('input[name="notti"]:checked');
+      if (p.dove !== 'solo aperitivo' && !nt) { mostra('Dicci quante notti ti fermi.', 'errore'); return; }
+      ris.notti = nt ? (nt.value === 'Nessuna' ? '0' : nt.value.charAt(0)) : '';
       var nav = form.querySelector('input[name="navetta"]:checked'); ris.navetta = nav ? nav.value : '';
     }
     invia.disabled = true; invia.textContent = 'Invio…';
     C.api('salva', { token: p.token, nome: p.nome, cognome: p.cognome, risposte: ris }).then(function (resp) {
       invia.disabled = false; invia.textContent = 'Invia le risposte';
       if (resp.esito === 'ok') {
-        p.risposte = Object.assign({}, r, ris, { notti: (ris.notti || []).join(', ') }); C.salvaProfilo(p);
-        mostra(viene ? 'Grazie ' + p.nome + '! Abbiamo ricevuto le tue risposte. Puoi tornare qui per modificarle.' : 'Grazie ' + p.nome + ', ci dispiace che tu non possa esserci. Abbiamo registrato la risposta.', 'ok');
+        p.risposte = Object.assign({}, r, ris); C.salvaProfilo(p);
+        mostra(viene ? 'Grazie ' + p.nome + '! Abbiamo ricevuto le tue risposte. Tra un attimo torni al sito.' : 'Grazie ' + p.nome + ', ci dispiace che tu non possa esserci. Abbiamo registrato la risposta. Tra un attimo torni al sito.', 'ok');
+        invia.disabled = true;
+        setTimeout(function () { location.href = 'index.html'; }, 3500);
       } else {
         mostra('Non siamo riusciti a salvare (' + (resp.esito || 'errore') + '). Riprova tra poco.', 'errore');
       }

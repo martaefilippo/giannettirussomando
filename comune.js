@@ -41,7 +41,7 @@
         if (azione === 'salva') {
           var k2 = normalizza(dati.nome) + '|' + normalizza(dati.cognome);
           var r = dati.risposte || {};
-          var piatte = { email: r.email, telefono: r.telefono, conferma: r.conferma, notti: (r.notti || []).join(', '), navetta: r.navetta, allergie: r.allergie, messaggio: r.messaggio };
+          var piatte = { email: r.email, telefono: r.telefono, conferma: r.conferma, notti: Array.isArray(r.notti) ? r.notti.join(', ') : (r.notti || ''), navetta: r.navetta, allergie: r.allergie, messaggio: r.messaggio };
           try { sessionStorage.setItem('prova_risposte_' + k2, JSON.stringify(piatte)); } catch (e) {}
           return resolve({ esito: 'ok' });
         }

@@ -5,7 +5,7 @@ window.CONFIG = {
   apiUrl: 'https://script.google.com/macros/s/AKfycbxXyGO5pxIxrZGwtr_HbHz-mmmSQh5iybdC8_COhwzj3vxjaHWfz0PBXf_3NEb4bgBj/exec',
 
   // Contatto mostrato a chi non viene riconosciuto
-  contattoAiuto: '#####',
+  contattoAiuto: '',
 
   // Notti selezionabili nel form
   notti: ['venerdì 9 luglio', 'sabato 10 luglio']
