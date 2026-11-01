@@ -56,10 +56,12 @@
     '<div class="campo"><label for="telefono">Telefono</label><input id="telefono" name="telefono" type="tel" required autocomplete="tel" value="' + esc(r.telefono || '') + '"></div></div>');
 
   if (p.dove !== 'solo aperitivo') {
-    var opzNotti = ['1 notte', '2 notti'];
-    var scelta = nottiSalvate === '1' ? '1 notte' : nottiSalvate === '2' ? '2 notti' : '';
+    var opzNotti = ['Venerdì 9', 'Sabato 10'];
+    var nottiScelte = nottiSalvate.split(',').map(function (x) { return x.trim().toLowerCase(); });
     blocchi.push('<div class="blocco" data-se="si"><h3>Le notti</h3>' +
-      '<fieldset class="campo"><legend>Quante notti ti fermi sul Faito?</legend>' + radio('notti', opzNotti, scelta, false) + '</fieldset></div>');
+      '<fieldset class="campo"><legend>Quante notti ti fermi sul Faito?</legend><div class="scelte">' + opzNotti.map(function (n) {
+        return '<label><input type="checkbox" name="notti" value="' + esc(n) + '"' + (nottiScelte.indexOf(n.toLowerCase()) !== -1 ? ' checked' : '') + '> ' + esc(n) + '</label>';
+      }).join('') + '</div></fieldset></div>');
   }
 
   if (p.navetta) {
@@ -105,9 +107,9 @@
       if (!form.telefono.value.trim()) { mostra('Serve un numero di telefono.', 'errore'); return; }
       ris.email = form.email.value.trim(); ris.telefono = form.telefono.value.trim();
       ris.allergie = form.allergie.value.trim();
-      var nt = form.querySelector('input[name="notti"]:checked');
-      if (p.dove !== 'solo aperitivo' && !nt) { mostra('Dicci quante notti ti fermi.', 'errore'); return; }
-      ris.notti = nt ? nt.value.charAt(0) : '';
+      var nts = Array.prototype.map.call(form.querySelectorAll('input[name="notti"]:checked'), function (i) { return i.value; });
+      if (p.dove !== 'solo aperitivo' && nts.length === 0) { mostra('Dicci quali notti ti fermi.', 'errore'); return; }
+      ris.notti = nts.join(', ');
       var nav = form.querySelector('input[name="navetta"]:checked'); ris.navetta = nav ? nav.value : '';
     }
     invia.disabled = true; invia.textContent = 'Invio…';
