@@ -185,6 +185,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* ---- intro del questionario ---- */
 .intro-questionario { display: grid; gap: .9rem; justify-items: center; }
 .intro-questionario .iban { margin: .4rem auto 0; width: 100%; }
+.intro-questionario p.lead b { font-weight: 800; color: var(--notte); }
 
 /* ---- moduli (accesso e rsvp) ---- */
 .modulo { background: var(--carta); border-radius: var(--raggio); padding: clamp(1.2rem, 4vw, 2rem); display: grid; gap: 1.2rem; box-shadow: 0 10px 30px rgba(28,58,86,.08); color: var(--testo); }
