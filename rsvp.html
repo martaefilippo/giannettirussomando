@@ -35,6 +35,12 @@
     else blocchi.push('<p class="lead centro">Ti aspettiamo sul Faito per il nostro matrimonio!</p>');
     if (p.stanza) {
       blocchi.push('<p class="lead centro">Abbiamo riservato per te una stanza a <b>' + esc(p.albergo) + '</b>' + (p.compagni ? ', insieme a <b>' + esc(p.compagni) + '</b>' : '') + '.</p>');
+      // colonna "Indirizzo" del foglio: link di Google Maps (o indirizzo scritto) della struttura
+      var indirizzo = String((p.colonne && (p.colonne.Indirizzo || p.colonne.indirizzo)) || '').trim();
+      if (indirizzo) {
+        var linkMappa = /^https?:\/\//i.test(indirizzo) ? indirizzo : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(indirizzo);
+        blocchi.push('<div class="pulsanti"><a class="btn giallo" href="' + esc(linkMappa) + '" target="_blank" rel="noopener">Apri ' + esc(p.albergo) + ' su Google Maps</a></div>');
+      }
       var prezzo = String(p.prezzo || (p.colonne && p.colonne.Prezzo) || '').trim().replace(/€/g, '').trim();
       if (prezzo) {
         blocchi.push('<p class="lead centro">Il costo della stanza è di <b>' + esc(prezzo) + '€ a notte a persona</b>. Se confermi, potrai pagarla entro il <b>20 aprile 2027</b> con un bonifico a:</p>' +
