@@ -43,7 +43,7 @@
 
   tipi.location = function (s) {
     // foto nel suo formato originale, a tutta larghezza; scritta bianca sopra; pulsante nella foto (PC) o sotto (telefono)
-    var btn = '<a class="btn giallo" href="' + attr(s.mappa_url || '#') + '" target="_blank" rel="noopener">' + h(s.pulsante || 'Apri in Google Maps') + '</a>';
+    var btn = s.mappa_url ? '<a class="btn giallo" href="' + attr(s.mappa_url) + '" target="_blank" rel="noopener">' + h(s.pulsante || 'Apri in Google Maps') + '</a>' : '';
     return '<div class="loc-foto"><img src="' + attr(s.foto) + '" alt="' + attr(s.foto_alt) + '">' +
       '<div class="loc-testo">' + (s.titolo ? '<h2' + stileTitolo(s) + '>' + h(s.titolo) + '</h2>' : '') +
       (s.sottotitolo ? '<p>' + h(s.sottotitolo) + '</p>' : '') +
@@ -53,6 +53,8 @@
 
   tipi.programma = function (s) {
     return '<div class="wrap stretto"><h2 class="titolo"' + stileTitolo(s) + '>' + h(s.titolo) + '</h2>' +
+      (s.testo ? '<p class="lead centro">' + h(s.testo) + '</p>' : '') +
+      (s.mappa_url ? '<div class="pulsanti"><a class="btn giallo" href="' + attr(s.mappa_url) + '" target="_blank" rel="noopener">' + h(s.pulsante || 'Apri in Google Maps') + '</a></div>' : '') +
       '<ol class="timeline">' + (s.voci || []).map(function (v) {
         return '<li><time>' + h(v.ora) + '</time><div><b>' + h(v.titolo) + '</b>' + (v.testo ? '<p>' + h(v.testo) + '</p>' : '') + '</div></li>';
       }).join('') + '</ol>' +

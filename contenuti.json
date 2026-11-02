@@ -32,8 +32,8 @@
       "foto_alt": "Il golfo di Napoli e il Vesuvio visti dal Monte Faito",
       "titolo": "",
       "sottotitolo": "",
-      "pulsante": "Apri in Google Maps",
-      "mappa_url": "https://maps.app.goo.gl/NhmBSVzWh57gzbqv7"
+      "pulsante": "",
+      "mappa_url": ""
     },
     {
       "id": "programma",
@@ -77,7 +77,10 @@
       "consigli": [
         "Siamo in montagna: la sera potrebbe fare fresco, portate qualcosa per coprirvi.",
         "A terra c'è la ghiaia: meglio scarpe comode, o un comodo ricambio."
-      ]
+      ],
+      "testo": "La cerimonia e il ricevimento si terranno presso la Terrazza Belvedere – Monte Faito di Vanacore Giacomo.",
+      "pulsante": "Apri in Google Maps",
+      "mappa_url": "https://maps.app.goo.gl/NhmBSVzWh57gzbqv7"
     },
     {
       "id": "rsvp",
