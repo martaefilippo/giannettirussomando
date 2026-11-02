@@ -173,6 +173,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .iban { background: var(--carta); color: var(--testo); border-radius: var(--raggio); padding: 1.4rem; display: grid; gap: .5rem; justify-items: center; max-width: 560px; margin-inline: auto; text-align: center; }
 .iban b { font-family: var(--font-info); font-weight: 400; letter-spacing: .08em; font-size: .85rem; text-transform: uppercase; color: var(--notte); margin-right: .4rem; }
 .iban .aiuto { font-size: .9rem; color: var(--testo-tenue); max-width: 46ch; }
+.iban .aiuto b { font-family: var(--font-testo); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: inherit; color: var(--testo); margin: 0; }
 .iban i { font-style: italic; color: var(--testo); }
 .iban code { font-size: 1.05rem; letter-spacing: .05em; word-break: break-all; }
 
