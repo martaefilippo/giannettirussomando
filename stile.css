@@ -115,7 +115,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .foto { border-radius: var(--raggio); overflow: hidden; box-shadow: 0 16px 40px rgba(28,58,86,.18); aspect-ratio: 3 / 2; max-width: 100%; background: linear-gradient(135deg, var(--azzurro), var(--cielo)); display: grid; place-items: center; color: var(--carta); font-family: var(--font-info); letter-spacing: .1em; text-transform: uppercase; }
 .foto img { width: 100%; height: 100%; object-fit: cover; }
 .foto.verticale { aspect-ratio: 3 / 4; max-width: 420px; margin-inline: auto; }
-@media (min-width: 761px) { .sez-saluto .foto.verticale { max-width: clamp(640px, 48vw, 1100px); } }
+@media (min-width: 761px) { .sez-saluto .foto.verticale { max-width: clamp(520px, 30vw, 680px); } }
 .countdown { display: flex; justify-content: center; gap: clamp(.8rem, 4vw, 2rem); font-variant-numeric: tabular-nums; margin-top: .5rem; }
 .countdown div { display: grid; justify-items: center; min-width: 3.2rem; }
 .countdown b { font-family: var(--font-nomi); font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; color: var(--cielo); }
@@ -134,7 +134,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ---- location: foto intera a tutta larghezza, scritta bianca sopra ---- */
 .sez-location { padding: 0; }
-@media (min-width: 761px) { .sez-location { padding-top: clamp(16rem, 26vw, 30rem); } }
+@media (min-width: 761px) { .sez-location { padding-top: clamp(8rem, 12vw, 13rem); } }
 .loc-foto { position: relative; width: 100%; }
 .loc-foto img { width: 100%; height: auto; display: block; }
 .loc-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,58,86,.15), rgba(28,58,86,.45)); }

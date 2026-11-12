@@ -135,7 +135,7 @@
     });
   }
 
-  fetch('contenuti.json?v=20261112122745', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (cfg) {
+  fetch('contenuti.json?v=20261112123020', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (cfg) {
     app.innerHTML = header(cfg) + '<main>' + cfg.sezioni.map(function (s) {
       var fn = tipi[s.tipo]; if (!fn) return '';
       return bandaApri(s, cfg) + fn(s, cfg) + '</section>';
