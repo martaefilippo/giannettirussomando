@@ -133,6 +133,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* ---- location: foto intera a tutta larghezza, scritta bianca sopra ---- */
 .sez-location { padding: 0; }
+@media (min-width: 761px) { .sez-location { padding-top: clamp(2.5rem, 5vw, 4.5rem); } }
 .loc-foto { position: relative; width: 100%; }
 .loc-foto img { width: 100%; height: auto; display: block; }
 .loc-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,58,86,.15), rgba(28,58,86,.45)); }
